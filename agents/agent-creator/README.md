@@ -4,6 +4,10 @@
 
 Agent Creator 把自然语言需求转换为一个最小、可维护的 agent-compose 项目，并使用真实 CLI 校验配置。用户明确要求导入时，它还可以把生成项目提交给 daemon。
 
+## 场景与解决的问题
+
+它面向需要频繁创建示例、原型或团队模板的维护者。与直接让通用 Agent 临时编写 YAML 相比，Creator 把仓库的设计规则、公开发布约束、脚手架和校验器打包到运行环境中，使输出结构一致，并明确区分“配置通过校验”和“已经实际运行”。
+
 ## 工作原理
 
 仓库级 [create-agent-compose-agents Skill](../../.agents/skills/create-agent-compose-agents/SKILL.md) 保存设计原则、Compose 约束、运行时参考和确定性脚本。构建镜像时，该 Skill 与 `agent-compose` CLI 一起复制到 guest：
@@ -20,7 +24,7 @@ Agent Creator 把自然语言需求转换为一个最小、可维护的 agent-co
 
 ## 构建与启动
 
-需要本地已经存在 `agent-compose:latest` 和 `agent-compose-guest:latest` 镜像。由于构建上下文包含仓库级 Skill，请从本示例目录直接使用 Compose 构建配置：
+需要本地已经存在控制面 `agent-compose:latest` 镜像；guest 基础镜像默认使用官方的 `chaitin/agent-compose-guest:latest`。由于构建上下文包含仓库级 Skill，请从本示例目录直接使用 Compose 构建配置：
 
 ```bash
 agent-compose config --quiet
@@ -42,4 +46,3 @@ agent-compose down
 ```
 
 仓库维护者和其他 AI Agent 也可以不运行该示例，直接使用 `.agents/skills/create-agent-compose-agents` 开发新项目。
-

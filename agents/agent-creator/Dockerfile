@@ -1,5 +1,5 @@
 ARG AGENT_COMPOSE_IMAGE=agent-compose:latest
-ARG AGENT_COMPOSE_GUEST_IMAGE=agent-compose-guest:latest
+ARG AGENT_COMPOSE_GUEST_IMAGE=chaitin/agent-compose-guest:latest
 
 FROM ${AGENT_COMPOSE_IMAGE} AS control-plane
 RUN cp -L /usr/local/bin/agent-compose /tmp/agent-compose
@@ -15,4 +15,3 @@ RUN chmod 0755 /usr/local/bin/agent-compose \
     test -f /opt/agent-creator/skills/create-agent-compose-agents/SKILL.md
 
 ENV AGENT_CREATOR_SKILL=/opt/agent-creator/skills/create-agent-compose-agents/SKILL.md
-

@@ -25,7 +25,7 @@ Build the smallest agent-compose project that satisfies the request and prove as
 
 - Author YAML mappings keyed by names for `agents`, `workspaces`, `mcps`, and `volumes`.
 - Use a provider supported by the installed agent-compose version. Do not pin private or experimental model names in public samples.
-- Default to Docker and `agent-compose-guest:latest`; select KVM-dependent drivers only when required and available.
+- Default to Docker and the official `chaitin/agent-compose-guest:latest` image; select KVM-dependent drivers only when required and available.
 - Never emit plaintext credentials. Use `${ENV_NAME}` references and safe `.env.example` files.
 - Never invent MCP servers, Skill sources, capability IDs, repository URLs, credentials, or deployment endpoints.
 - Do not combine `scheduler.script` and `scheduler.triggers` on one agent.
@@ -46,4 +46,3 @@ Deliver at least:
 For this repository, also provide `README.en.md`, keep Chinese as the default documentation, and follow the root `AGENTS.md`.
 
 Report checks passed, import status, unavailable checks, operator inputs, and exact first-run commands.
-

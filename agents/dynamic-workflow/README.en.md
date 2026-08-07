@@ -40,7 +40,7 @@ The incident domain is only a teaching vehicle. The pattern also fits dynamic co
 
 ## Build and run
 
-Use daemon, CLI, `agent-compose-guest:latest`, and runtime SDK builds from the same dynamic-workflow PR version.
+Use daemon, CLI, `chaitin/agent-compose-guest:latest`, and runtime SDK builds from the same dynamic-workflow PR version.
 
 ```bash
 docker build -t agent-compose-sample/dynamic-workflow:latest .
@@ -70,4 +70,3 @@ Output includes actual agent, hypothesis, and follow-up counts, invocation statu
 agent-compose scheduler logs --scheduler incident_workflow
 agent-compose down
 ```
-

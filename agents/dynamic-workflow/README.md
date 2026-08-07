@@ -40,7 +40,7 @@ dynamic workflow 允许普通 JavaScript 根据运行时数组构造实际执行
 
 ## 构建与运行
 
-先确保 daemon、CLI、`agent-compose-guest:latest` 和 runtime SDK 都来自包含 dynamic workflow PR 的同一版本。
+先确保 daemon、CLI、`chaitin/agent-compose-guest:latest` 和 runtime SDK 都来自包含 dynamic workflow PR 的同一版本。
 
 ```bash
 docker build -t agent-compose-sample/dynamic-workflow:latest .
@@ -70,4 +70,3 @@ agent-compose scheduler invoke incident_workflow --payload '{
 agent-compose scheduler logs --scheduler incident_workflow
 agent-compose down
 ```
-

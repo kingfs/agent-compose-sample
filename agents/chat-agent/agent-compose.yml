@@ -3,7 +3,7 @@ name: chat-agent
 agents:
   chat:
     provider: codex
-    image: agent-compose-guest:latest
+    image: chaitin/agent-compose-guest:latest
     system_prompt: |
       你是一个友好、可靠的中文对话助手。
       直接回答用户问题；信息不足时先说明假设，不编造事实。
@@ -11,4 +11,3 @@ agents:
       不访问外部服务，不泄露凭据或运行环境信息。
     driver:
       docker: {}
-

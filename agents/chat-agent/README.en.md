@@ -4,6 +4,10 @@
 
 This minimal chat assistant shows that the same agent-compose project can be invoked through either the daemon CLI or its Connect RPC HTTP API.
 
+## Scenario and problem addressed
+
+Start here when validating provider configuration, building a minimal chat entry point, or letting an existing service call an agent over HTTP. The sample deliberately uses one stateless, tool-free agent so it answers the first integration question—whether a CLI or API request can reach the model and return a result—without introducing scheduling, workspaces, or multi-agent orchestration.
+
 ## How it works
 
 `agent-compose.yml` defines one `chat` agent. For each request, the daemon starts `agent-compose-guest` in a Docker sandbox and sends the user prompt to the configured `codex` provider. The deployment selects the model; the sample does not pin one.
@@ -11,6 +15,10 @@ This minimal chat assistant shows that the same agent-compose project can be inv
 ```text
 CLI / Connect API → agent-compose daemon → chat agent → model provider
 ```
+
+## Prerequisites
+
+You need a working agent-compose daemon and CLI, a configured `codex` provider, and Docker access to pull `chaitin/agent-compose-guest:latest`.
 
 ## Start
 
@@ -49,4 +57,3 @@ The assistant should follow the user's language, remain concise, and avoid unsup
 agent-compose logs chat
 agent-compose down
 ```
-

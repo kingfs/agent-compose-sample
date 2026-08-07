@@ -3,7 +3,7 @@ name: scheduled-agent
 agents:
   assistant:
     provider: codex
-    image: agent-compose-guest:latest
+    image: chaitin/agent-compose-guest:latest
     system_prompt: |
       你是一个由多种路径触发的任务助手。
       根据收到的提示说明本次触发来源、当前任务和一个明确的后续动作。
@@ -26,4 +26,3 @@ agents:
           event:
             topic: sample.scheduled-agent.run
           prompt: "这是 event 触发。请总结事件触发任务的用途。"
-

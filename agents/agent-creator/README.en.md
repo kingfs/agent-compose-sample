@@ -4,6 +4,10 @@
 
 Agent Creator turns a natural-language requirement into a minimal, maintainable agent-compose project and validates it with the real CLI. When explicitly requested, it can also import the generated project into the daemon.
 
+## Scenario and problem addressed
+
+It serves maintainers who frequently create examples, prototypes, or team templates. Instead of asking a general-purpose agent to improvise YAML, Creator packages the repository's design rules, public-release constraints, scaffolder, and validator into its runtime. This keeps output consistent and clearly separates “configuration validated” from “actually runtime verified.”
+
 ## How it works
 
 The repository-level [create-agent-compose-agents Skill](../../.agents/skills/create-agent-compose-agents/SKILL.md) contains design rules, Compose constraints, runtime references, and deterministic scripts. The image packages that Skill together with the `agent-compose` CLI:
@@ -20,7 +24,7 @@ Generated files live under `/workspace` in the creator sandbox. By default, gene
 
 ## Build and start
 
-The `agent-compose:latest` and `agent-compose-guest:latest` images must already exist. The Compose build context includes the repository-level Skill:
+The control-plane `agent-compose:latest` image must already exist; the guest stage uses the official `chaitin/agent-compose-guest:latest` image by default. The Compose build context includes the repository-level Skill:
 
 ```bash
 agent-compose config --quiet
@@ -42,4 +46,3 @@ agent-compose down
 ```
 
 Repository maintainers and other AI agents can also use `.agents/skills/create-agent-compose-agents` directly without running this sample.
-

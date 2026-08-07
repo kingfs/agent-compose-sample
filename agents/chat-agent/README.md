@@ -4,6 +4,10 @@
 
 这是最小对话助手示例，展示同一份 agent-compose 配置既可以由 daemon CLI 调用，也可以由 daemon 的 Connect RPC HTTP API 调用。
 
+## 场景与解决的问题
+
+当你需要验证 provider 配置、做一个最小聊天入口，或让现有服务通过 HTTP 调用 Agent 时，可以从这个示例开始。它刻意只保留一个无工具、无持久状态的 Agent，帮助先验证“请求能否从 CLI 或 API 到达模型并返回结果”，避免把调度、工作区和多 Agent 编排混入最初的连通性测试。
+
 ## 工作原理
 
 `agent-compose.yml` 声明一个名为 `chat` 的 Agent。daemon 为每次请求创建 Docker sandbox，在其中启动 `agent-compose-guest`，并将用户提示交给已配置的 `codex` provider。模型由 daemon 的 provider 配置决定，示例不绑定具体模型。
@@ -11,6 +15,10 @@
 ```text
 CLI / Connect API → agent-compose daemon → chat Agent → model provider
 ```
+
+## 前置条件
+
+需要可用的 agent-compose daemon、CLI、`codex` provider，以及能拉取 `chaitin/agent-compose-guest:latest` 的 Docker 环境。
 
 ## 启动
 
@@ -54,4 +62,3 @@ curl -sS "$AGENT_COMPOSE_HOST/agentcompose.v2.RunService/RunAgent" \
 agent-compose logs chat
 agent-compose down
 ```
-

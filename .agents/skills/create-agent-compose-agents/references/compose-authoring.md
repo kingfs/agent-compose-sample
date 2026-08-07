@@ -20,7 +20,7 @@ volumes:
 agents:
   worker:
     provider: codex
-    image: agent-compose-guest:latest
+    image: chaitin/agent-compose-guest:latest
     system_prompt: |
       Stable role instructions.
     driver:
@@ -55,4 +55,3 @@ scheduler:
 Each trigger selects exactly one of `cron`, `interval`, `timeout`, or `event`. Use `scheduler.script` for routing, conditional workflows, state, execution timeouts, or multiple agent calls. Never configure both forms on one agent.
 
 The real manual for the installed agent-compose version is authoritative when it differs from this concise reference.
-

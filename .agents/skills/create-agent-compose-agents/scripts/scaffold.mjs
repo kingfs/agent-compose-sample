@@ -49,7 +49,7 @@ function renderCompose(blueprint) {
     lines.push(
       `  ${name}:`,
       `    provider: ${provider}`,
-      `    image: ${quote(raw.image || "agent-compose-guest:latest")}`,
+      `    image: ${quote(raw.image || "chaitin/agent-compose-guest:latest")}`,
       "    system_prompt: |",
       block(raw.systemPrompt || "You are a reliable assistant.", 6),
       "    driver:",
@@ -89,4 +89,3 @@ main().catch((error) => {
   console.error(JSON.stringify({ ok: false, error: error.message }, null, 2));
   process.exit(1);
 });
-

@@ -4,6 +4,10 @@
 
 这个示例展示同一个 Agent 代码如何从四种路径执行：cron 定时、interval 周期、timeout 启动后单次延迟，以及外部 event。
 
+## 场景与解决的问题
+
+它适合日报摘要、周期健康提醒、服务启动后的初始化检查，以及由外部业务事件触发的同类任务。四条路径复用同一个 Agent，解决“处理逻辑相同，但触发时间和来源不同”时重复定义多个 Agent 的问题，同时直观展示该在什么时候使用声明式 trigger。
+
 ## 工作原理
 
 四个声明式 trigger 最终都调用 `assistant`，但各自提供不同提示。适合逻辑相同、触发时间或来源不同的任务；需要条件路由、状态或跨 Agent 编排时，应改用 `scheduler.script`。
@@ -14,6 +18,10 @@ interval ─┤
 timeout ──┼→ assistant Agent
 event ────┘
 ```
+
+## 前置条件
+
+需要可用的 agent-compose daemon、CLI、`codex` provider，以及能拉取 `chaitin/agent-compose-guest:latest` 的 Docker 环境。cron 使用 daemon 所在环境的时区，部署前应确认时区设置。
 
 ## 启动和观察
 
@@ -44,4 +52,3 @@ agent-compose scheduler runs assistant
 agent-compose scheduler logs --scheduler assistant
 agent-compose down
 ```
-
