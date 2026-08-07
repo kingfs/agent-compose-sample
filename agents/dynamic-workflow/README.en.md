@@ -33,17 +33,16 @@ The incident domain is only a teaching vehicle. The pattern also fits dynamic co
 
 ## Files
 
-- `agent-compose.yml`: scheduler entry point and sticky sandbox.
+- `agent-compose.yml`: scheduler entry point, sticky sandbox, and image build configuration.
 - `workflows/incident-investigation.js`: reviewable workflow definition with Chinese prompts.
 - `run-workflow.mjs`: experimental runtime SDK entry point.
 - `Dockerfile`: packages workflow sources into the guest image.
 
 ## Build and run
 
-Use daemon, CLI, `chaitin/agent-compose-guest:latest`, and runtime SDK builds from the same dynamic-workflow PR version.
+Use daemon, CLI, `chaitin/agent-compose-guest:latest`, and runtime SDK builds from the same dynamic-workflow PR version, then run the following commands from this directory. `agent-compose.yml` declares the Docker build context, Dockerfile, and image tag, so `agent-compose up` builds `agent-compose-sample/dynamic-workflow:latest` without a separate `docker build` step.
 
 ```bash
-docker build -t agent-compose-sample/dynamic-workflow:latest .
 agent-compose config --quiet
 agent-compose up
 agent-compose scheduler invoke incident_workflow --payload '{

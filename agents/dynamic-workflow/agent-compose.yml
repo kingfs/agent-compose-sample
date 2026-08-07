@@ -3,7 +3,11 @@ name: dynamic-workflow
 agents:
   incident_workflow:
     provider: codex
-    image: agent-compose-sample/dynamic-workflow:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+      tags:
+        - agent-compose-sample/dynamic-workflow:latest
     system_prompt: |
       你是动态事故调查工作流中的专业角色。
       严格遵循每次调用提供的角色说明和 JSON Schema。
@@ -48,4 +52,3 @@ agents:
           }
           return result;
         }
-

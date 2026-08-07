@@ -33,17 +33,16 @@ dynamic workflow 允许普通 JavaScript 根据运行时数组构造实际执行
 
 ## 文件结构
 
-- `agent-compose.yml`：scheduler 入口和 sticky sandbox 配置。
+- `agent-compose.yml`：scheduler 入口、sticky sandbox 和镜像构建配置。
 - `workflows/incident-investigation.js`：可审阅的动态工作流定义，prompt 默认使用中文。
 - `run-workflow.mjs`：调用实验性 runtime SDK。
 - `Dockerfile`：把工作流源文件加入 guest 镜像。
 
 ## 构建与运行
 
-先确保 daemon、CLI、`chaitin/agent-compose-guest:latest` 和 runtime SDK 都来自包含 dynamic workflow PR 的同一版本。
+先确保 daemon、CLI、`chaitin/agent-compose-guest:latest` 和 runtime SDK 都来自包含 dynamic workflow PR 的同一版本，并在本目录执行以下命令。`agent-compose.yml` 已声明 Docker 构建上下文、Dockerfile 和镜像标签；`agent-compose up` 会先构建 `agent-compose-sample/dynamic-workflow:latest`，无需手动执行 `docker build`。
 
 ```bash
-docker build -t agent-compose-sample/dynamic-workflow:latest .
 agent-compose config --quiet
 agent-compose up
 agent-compose scheduler invoke incident_workflow --payload '{
