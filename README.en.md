@@ -4,6 +4,18 @@
 
 This repository contains runnable and readable examples for [agent-compose](https://github.com/chaitin/agent-compose). They serve as tutorials and as reference projects for chat, scheduling, event-driven collaboration, and dynamic workflows.
 
+## GitHub Pages documentation
+
+Whenever a tag is pushed, the [Pages workflow](.github/workflows/pages.yml) extracts every `agents/*/README.md` and `README.en.md`, builds a Chinese-first bilingual static site, and deploys it to GitHub Pages. The workflow can also be started manually from GitHub Actions.
+
+Before the first run, set **Settings → Pages → Build and deployment → Source** to **GitHub Actions**. Publishing any tag will then update the site automatically.
+
+Generate the site locally for inspection:
+
+```bash
+node scripts/build-pages.mjs --output .pages-src
+```
+
 ## Samples
 
 | Sample | Level | What it demonstrates |
@@ -59,4 +71,3 @@ The repository Skill lives at [`.agents/skills/create-agent-compose-agents`](.ag
 ## License
 
 [Apache License 2.0](LICENSE)
-

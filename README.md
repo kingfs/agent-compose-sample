@@ -4,6 +4,18 @@
 
 本仓库提供一组可运行、可阅读的 [agent-compose](https://github.com/chaitin/agent-compose) 示例。它们既是入门教程，也是展示对话、调度、事件协作和动态工作流能力的参考项目。
 
+## GitHub Pages 文档
+
+每次推送 tag 时，[Pages 工作流](.github/workflows/pages.yml) 会自动提取所有 `agents/*/README.md` 和 `README.en.md`，生成默认中文、可切换英文的静态文档站点并部署到 GitHub Pages。也可以从 GitHub Actions 手动触发该工作流。
+
+首次使用前，请在仓库 **Settings → Pages → Build and deployment** 中将 Source 设为 **GitHub Actions**。之后发布任意 tag 即会自动更新站点。
+
+本地检查生成结果：
+
+```bash
+node scripts/build-pages.mjs --output .pages-src
+```
+
 ## 示例
 
 | 示例 | 难度 | 展示能力 |
@@ -59,4 +71,3 @@ agent-compose down
 ## License
 
 [Apache License 2.0](LICENSE)
-

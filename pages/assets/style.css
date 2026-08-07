@@ -1,0 +1,42 @@
+:root {
+  color-scheme: light dark;
+  --background: #fbfbfa;
+  --text: #202322;
+  --muted: #68706c;
+  --line: #d8dcda;
+  --accent: #176b52;
+  --code: #f0f2f1;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0 auto; max-width: 920px; padding: 0 28px; background: var(--background); color: var(--text); line-height: 1.7; }
+.site-header { display: flex; align-items: center; justify-content: space-between; min-height: 64px; border-bottom: 1px solid var(--line); }
+.site-name { color: var(--text); font-weight: 650; text-decoration: none; }
+nav { display: flex; gap: 18px; font-size: .92rem; }
+main { padding: 52px 0 72px; }
+h1 { margin: 0 0 24px; font-size: clamp(2rem, 6vw, 3.25rem); line-height: 1.14; letter-spacing: -.035em; }
+h2 { margin-top: 48px; padding-bottom: 8px; border-bottom: 1px solid var(--line); font-size: 1.35rem; }
+h3 { margin-top: 32px; }
+a { color: var(--accent); text-underline-offset: 3px; }
+p, li { max-width: 76ch; }
+blockquote { margin-left: 0; padding-left: 18px; border-left: 2px solid var(--line); color: var(--muted); }
+pre { overflow-x: auto; padding: 18px; border: 1px solid var(--line); background: var(--code); border-radius: 4px; }
+code { padding: .12em .3em; background: var(--code); border-radius: 3px; }
+pre code { padding: 0; }
+.intro { max-width: 680px; color: var(--muted); font-size: 1.08rem; }
+.agent-list { margin-top: 42px; border-top: 1px solid var(--line); }
+.agent-row { display: grid; grid-template-columns: minmax(170px, 1fr) 2fr; gap: 28px; padding: 24px 0; border-bottom: 1px solid var(--line); }
+.agent-row h2 { margin: 0; padding: 0; border: 0; font-size: 1.08rem; }
+.agent-row p { margin: 0; color: var(--muted); }
+footer { display: flex; justify-content: space-between; padding: 20px 0 36px; border-top: 1px solid var(--line); color: var(--muted); font-size: .82rem; }
+
+@media (prefers-color-scheme: dark) {
+  :root { --background: #151716; --text: #e7eae8; --muted: #a6ada9; --line: #353a37; --accent: #76d4b3; --code: #202321; }
+}
+
+@media (max-width: 640px) {
+  body { padding: 0 18px; }
+  main { padding-top: 36px; }
+  .agent-row { grid-template-columns: 1fr; gap: 8px; }
+}
