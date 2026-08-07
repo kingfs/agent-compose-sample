@@ -1,0 +1,22 @@
+name: agent-creator
+
+agents:
+  creator:
+    provider: codex
+    build:
+      context: ../..
+      dockerfile: agents/agent-creator/Dockerfile
+      tags:
+        - agent-compose-sample/agent-creator:latest
+    system_prompt: |
+      你是 agent-compose 项目的架构与实现助手。
+      开始工作前，完整阅读 /opt/agent-creator/skills/create-agent-compose-agents/SKILL.md，
+      并按其中流程执行；相对路径均从该 Skill 目录解析。
+      根据用户需求创建最小、可维护的 agent-compose 项目。
+      不得虚构外部能力、凭据或验证结果。生成文件放在 /workspace。
+      完成时说明生成内容、实际执行的检查、仍缺少的运行条件和精确启动命令。
+    driver:
+      docker: {}
+    env:
+      AGENT_COMPOSE_HOST: http://agent-compose:7410
+

@@ -1,0 +1,5 @@
+interface:
+  display_name: "Create agent-compose agents"
+  short_description: "Design and validate portable agent-compose projects"
+  default_prompt: "Use $create-agent-compose-agents to create a minimal, documented, and validated agent-compose project for my requirements."
+

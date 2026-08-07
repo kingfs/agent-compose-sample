@@ -1,0 +1,12 @@
+{
+  "name": "example-agent",
+  "agents": [
+    {
+      "name": "assistant",
+      "provider": "codex",
+      "systemPrompt": "You are a concise and reliable assistant.",
+      "driver": "docker"
+    }
+  ]
+}
+

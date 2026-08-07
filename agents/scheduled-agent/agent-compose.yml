@@ -1,0 +1,29 @@
+name: scheduled-agent
+
+agents:
+  assistant:
+    provider: codex
+    image: agent-compose-guest:latest
+    system_prompt: |
+      你是一个由多种路径触发的任务助手。
+      根据收到的提示说明本次触发来源、当前任务和一个明确的后续动作。
+      回答保持简洁，不编造未提供的运行状态。
+    driver:
+      docker: {}
+    scheduler:
+      enabled: true
+      triggers:
+        - name: hourly-status
+          cron: "0 * * * *"
+          prompt: "这是 cron 触发。请用一句话说明定时状态检查的用途。"
+        - name: recurring-heartbeat
+          interval: 1h
+          prompt: "这是 interval 触发。请输出一条简短的服务心跳。"
+        - name: startup-reminder
+          timeout: 30s
+          prompt: "这是 timeout 触发。请给出一条启动后的检查提醒。"
+        - name: external-event
+          event:
+            topic: sample.scheduled-agent.run
+          prompt: "这是 event 触发。请总结事件触发任务的用途。"
+
