@@ -4,17 +4,9 @@
 
 This repository contains runnable and readable examples for [agent-compose](https://github.com/chaitin/agent-compose). They serve as tutorials and as reference projects for chat, scheduling, event-driven collaboration, and dynamic workflows.
 
-## GitHub Pages documentation
+## Documentation and development
 
-Whenever a tag is pushed, the [Pages workflow](.github/workflows/pages.yml) extracts every `agents/*/README.md` and `README.en.md`, builds a Chinese-first bilingual static site, and deploys it to GitHub Pages. The workflow can also be started manually from GitHub Actions.
-
-Before the first run, set **Settings → Pages → Build and deployment → Source** to **GitHub Actions**. Publishing any tag will then update the site automatically.
-
-Generate the site locally for inspection:
-
-```bash
-node scripts/build-pages.mjs --output .pages-src
-```
+See [`docs/README.en.md`](docs/README.en.md) ([中文](docs/README.md)) for the repository layout, GitHub Pages publishing, local documentation builds, and contribution checks.
 
 ## Samples
 
@@ -23,7 +15,7 @@ node scripts/build-pages.mjs --output .pages-src
 | [chat-agent](agents/chat-agent/README.en.md) | Beginner | Start a chat assistant through the daemon CLI or Connect API |
 | [scheduled-agent](agents/scheduled-agent/README.en.md) | Beginner | Run one agent from cron, interval, timeout, and event triggers |
 | [event-driven-workflow](agents/event-driven-workflow/README.en.md) | Intermediate | Chain analysis, implementation advice, and test advice across three agents |
-| [dynamic-workflow](agents/dynamic-workflow/README.en.md) | Experimental | Expand a parallel agent graph from runtime results |
+| [dynamic-workflow](agents/dynamic-workflow/README.en.md) | Intermediate | Expand a parallel agent graph from runtime results |
 | [agent-creator](agents/agent-creator/README.en.md) | Intermediate | Create, validate, and import projects from natural-language requirements |
 
 ## Prepare agent-compose
@@ -54,7 +46,7 @@ agent-compose down
 
 Each sample README explains its triggers, design, expected result, and cleanup steps.
 
-> `dynamic-workflow` depends on an unmerged upstream dynamic-workflow pull request. It is published as a design reference and is not expected to run on every stable agent-compose release.
+> `dynamic-workflow` uses the dynamic workflow capability included in newer agent-compose releases. Use mutually compatible recent daemon, CLI, guest image, and runtime SDK versions.
 
 ## Repository Skill
 

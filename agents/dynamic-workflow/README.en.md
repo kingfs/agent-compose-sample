@@ -1,8 +1,8 @@
-# Dynamic Workflow (Experimental)
+# Dynamic Workflow
 
 [中文](README.md)
 
-> This sample depends on an unmerged upstream agent-compose dynamic-workflow pull request and is published as a reference project for that PR. A stable CLI may accept the Compose file while its guest SDK still lacks APIs such as `workflowFile()`.
+> Dynamic workflow is included in newer agent-compose releases. Use recent, mutually compatible daemon, CLI, guest image, and runtime SDK versions that provide `workflowFile()`.
 
 The sample handles an incident investigation whose graph size is unknown at deployment time. A planner derives 1–4 hypotheses from the actual failure domains. The runtime creates one investigator per hypothesis, after which an evidence judge may add 0–3 verification agents.
 
@@ -35,12 +35,12 @@ The incident domain is only a teaching vehicle. The pattern also fits dynamic co
 
 - `agent-compose.yml`: scheduler entry point, sticky sandbox, and image build configuration.
 - `workflows/incident-investigation.js`: reviewable workflow definition with Chinese prompts.
-- `run-workflow.mjs`: experimental runtime SDK entry point.
+- `run-workflow.mjs`: dynamic workflow runtime SDK entry point.
 - `Dockerfile`: packages workflow sources into the guest image.
 
 ## Build and run
 
-Use daemon, CLI, `chaitin/agent-compose-guest:latest`, and runtime SDK builds from the same dynamic-workflow PR version, then run the following commands from this directory. `agent-compose.yml` declares the Docker build context, Dockerfile, and image tag, so `agent-compose up` builds `agent-compose-sample/dynamic-workflow:latest` without a separate `docker build` step.
+Use mutually compatible recent daemon, CLI, `chaitin/agent-compose-guest:latest`, and runtime SDK versions, then run the following commands from this directory. `agent-compose.yml` declares the Docker build context, Dockerfile, and image tag, so `agent-compose up` builds `agent-compose-sample/dynamic-workflow:latest` without a separate `docker build` step.
 
 ```bash
 agent-compose config --quiet

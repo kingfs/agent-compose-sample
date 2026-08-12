@@ -86,7 +86,9 @@ function indexPage(lang, agents) {
   const intro = chinese
     ? "从可运行的小项目学习 agent-compose。每个示例都说明适用场景、工作流程、启动方式与预期结果。"
     : "Learn agent-compose through small, runnable projects. Each sample explains its use case, workflow, commands, and expected result.";
-  const stories = chinese ? '<p class="stories-cta"><a href="{{ \'/stories/\' | relative_url }}">读场景故事：看看 Agent 如何真正上班 →</a></p>' : "";
+  const stories = chinese
+    ? '<p class="stories-cta"><a href="{{ \'/stories/\' | relative_url }}">读场景故事：看看 Agent 如何真正上班 →</a></p>'
+    : '<p class="stories-cta"><a href="{{ \'/en/stories/\' | relative_url }}">Read Agent at Work: four stories behind the architecture →</a></p>';
   return `${frontMatter({
     title: heading, lang, alternateUrl: chinese ? "/en/" : "/", alternateLang: chinese ? "en" : "zh-CN",
     alternateLabel: chinese ? "English" : "中文", homeUrl: chinese ? "/" : "/en/",
