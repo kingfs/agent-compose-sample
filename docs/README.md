@@ -15,7 +15,7 @@
 - `/stories/`：中文“Agent 上班实录”故事入口。
 - `/stories/{name}/`：单篇故事化软文。
 
-故事文章使用 `docs/assets/*.svg` 中的本地插画，构建脚本会把它们复制到站点的 `/stories/assets/`，不依赖外部图床或 CDN。
+故事文章使用 `docs/assets/*.svg` 中的本地插画。构建脚本会把它们复制到站点的 `stories/assets/`，并通过 Jekyll `relative_url` 过滤器补上 GitHub Pages 的仓库 `baseurl`，不依赖外部图床或 CDN。
 
 ## 本地构建
 

@@ -70,9 +70,10 @@ function parseReadme(markdown, filename) {
 
 function storyBody(markdown, filename) {
   const parsed = parseReadme(markdown, filename);
-  return { ...parsed, body: parsed.body
-    .replaceAll("](../assets/", "](/stories/assets/")
-    .replace(/\]\(\{\{ site\.github\.repository_url \}\}\/blob\/\{\{ site\.github\.build_revision \}\}\/docs\/assets\//g, "](/stories/assets/") };
+  const assetPattern = /!\[([^\]]*)\]\((?:\.\.\/assets\/|\{\{ site\.github\.repository_url \}\}\/blob\/\{\{ site\.github\.build_revision \}\}\/docs\/assets\/)([^)]+)\)/g;
+  return { ...parsed, body: parsed.body.replace(assetPattern, (_match, alt, asset) =>
+    `<img src="{{ '/stories/assets/${asset}' | relative_url }}" alt="${escapeHtml(alt)}">`
+  ) };
 }
 
 function indexPage(lang, agents) {

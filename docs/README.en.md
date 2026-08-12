@@ -16,7 +16,7 @@ Pushing any tag, or manually running `Publish agent documentation` in GitHub Act
 - `/en/stories/`: English story index.
 - `/stories/{name}/` and `/en/stories/{name}/`: localized stories.
 
-Story articles use local illustrations from `docs/assets/*.svg`. The builder copies them to `/stories/assets/` and `/en/stories/assets/`, so the site does not depend on an external image host or CDN.
+Story articles use local illustrations from `docs/assets/*.svg`. The builder copies them to `stories/assets/` and applies Jekyll's `relative_url` filter so a project site's repository `baseurl` is preserved. The site does not depend on an external image host or CDN.
 
 ## Local build
 
