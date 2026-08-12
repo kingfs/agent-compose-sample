@@ -42,6 +42,10 @@ function campaignFrontMatter({ title, description, homeUrl = "/stories/" }) {
   ].join("\n");
 }
 
+function englishCampaignFrontMatter({ title, description }) {
+  return campaignFrontMatter({ title, description, homeUrl: "/en/stories/" }).replace("lang: zh-CN", "lang: en");
+}
+
 function escapeHtml(value) {
   return value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
 }
@@ -62,6 +66,13 @@ function parseReadme(markdown, filename) {
   );
   const description = paragraphs[0]?.replace(/[`*_]/g, "") || title;
   return { title, description, body };
+}
+
+function storyBody(markdown, filename) {
+  const parsed = parseReadme(markdown, filename);
+  return { ...parsed, body: parsed.body
+    .replaceAll("](../assets/", "](/stories/assets/")
+    .replace(/\]\(\{\{ site\.github\.repository_url \}\}\/blob\/\{\{ site\.github\.build_revision \}\}\/docs\/assets\//g, "](/stories/assets/") };
 }
 
 function indexPage(lang, agents) {
@@ -86,6 +97,11 @@ function storiesIndex(stories) {
     `<article class="story-card"><span>${escapeHtml(eyebrow)}</span><h2><a href="{{ '/stories/${slug}/' | relative_url }}">${escapeHtml(title)}</a></h2><p>${escapeHtml(description)}</p><a class="story-link" href="{{ '/stories/${slug}/' | relative_url }}">开始阅读 →</a></article>`
   ).join("\n");
   return `${campaignFrontMatter({ title: "Agent 上班实录", description: "四个真实场景，读懂如何用 agent-compose 创建对话、动态工作流、事件驱动与多触发 Agent。", homeUrl: "/" })}<div class="story-hero"><p class="eyebrow">AGENT-COMPOSE · 场景故事</p><h1>别只让 Agent 跑脚本，<br>也让它接电话、组队和听铃上班</h1><p class="intro">四篇不太像说明书的技术故事：从一个具体麻烦出发，拆开配置，看请求如何抵达 Agent，再亲手跑一次。</p></div>\n<section class="story-grid">${cards}</section>\n`;
+}
+
+function englishStoriesIndex(stories) {
+  const cards = stories.map(({ slug, title, description }) => `<article class="story-card"><span>AGENT AT WORK</span><h2><a href="{{ '/en/stories/${slug}/' | relative_url }}">${escapeHtml(title)}</a></h2><p>${escapeHtml(description)}</p><a class="story-link" href="{{ '/en/stories/${slug}/' | relative_url }}">Read the story →</a></article>`).join("\n");
+  return `${englishCampaignFrontMatter({ title: "Agent at Work", description: "Four approachable stories about building chat, dynamic, event-driven, and scheduled agents with agent-compose." })}<div class="story-hero"><p class="eyebrow">AGENT-COMPOSE · STORIES</p><h1>Let your Agent answer the phone,<br>form a team, and hear the alarm</h1><p class="intro">Four technical stories that start with an everyday mess and quietly reveal the architecture underneath.</p></div>\n<section class="story-grid">${cards}</section>\n`;
 }
 
 await rm(output, { recursive: true, force: true });
@@ -129,16 +145,26 @@ const storyEntries = (await readdir(docsRoot, { withFileTypes: true }))
   .filter((entry) => entry.isDirectory() && entry.name !== "assets")
   .sort((left, right) => left.name.localeCompare(right.name));
 const stories = [];
+const englishStories = [];
 for (const entry of storyEntries) {
   const filename = `docs/${entry.name}/index.md`;
   const markdown = await readFile(path.join(root, filename), "utf8");
-  const parsed = parseReadme(markdown, filename);
+  const parsed = storyBody(markdown, filename);
   const eyebrow = markdown.match(/^>\s*栏目：(.+)$/m)?.[1]?.trim() || "场景故事";
   stories.push({ slug: entry.name, eyebrow, ...parsed });
+  const englishFilename = `docs/${entry.name}/index.en.md`;
+  const englishMarkdown = await readFile(path.join(root, englishFilename), "utf8");
+  englishStories.push({ slug: entry.name, ...storyBody(englishMarkdown, englishFilename) });
   const target = path.join(output, "stories", entry.name);
   await mkdir(target, { recursive: true });
   await writeFile(path.join(target, "index.md"), campaignFrontMatter({ title: parsed.title, description: parsed.description }) + parsed.body + "\n");
+  const englishTarget = path.join(output, "en", "stories", entry.name);
+  await mkdir(englishTarget, { recursive: true });
+  const english = englishStories.at(-1);
+  await writeFile(path.join(englishTarget, "index.md"), englishCampaignFrontMatter({ title: english.title, description: english.description }) + english.body + "\n");
 }
 await mkdir(path.join(output, "stories"), { recursive: true });
 await writeFile(path.join(output, "stories", "index.html"), storiesIndex(stories));
-console.log(`Generated ${entries.length * 2 + stories.length + 3} pages from ${entries.length} agents and ${stories.length} stories in ${path.relative(root, output)}`);
+await mkdir(path.join(output, "en", "stories"), { recursive: true });
+await writeFile(path.join(output, "en", "stories", "index.html"), englishStoriesIndex(englishStories));
+console.log(`Generated ${entries.length * 2 + stories.length * 2 + 4} pages from ${entries.length} agents and ${stories.length} stories in ${path.relative(root, output)}`);
