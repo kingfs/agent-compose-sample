@@ -6,23 +6,11 @@
 
 `dynamic-workflow` 展示的是另一种做法：先让规划者根据现场描述列出假设，再按数组动态创建调查 Agent；证据不足时，评审者还能临时追加第二轮验证。工作流不是预先摆满椅子，而是来了几位专家，就搬几把椅子。
 
-> **实验性提示：** 此例依赖 agent-compose 尚未合并的 dynamic workflow 上游 PR。稳定版即使通过静态配置校验，也可能因 guest SDK 缺少 `workflowFile()` 等 API 而无法运行。请让 daemon、CLI、guest 与 runtime SDK 使用包含该 PR 的同一版本。
+> **版本提示：** dynamic workflow 已合入 agent-compose 新版本。请让 daemon、CLI、guest 与 runtime SDK 使用相互兼容的近期版本，即可直接运行本例。
 
 ## 执行图是“跑”出来的
 
-```mermaid
-flowchart TD
-  I[事故描述] --> P[规划者：生成 1–4 个假设]
-  P --> H1[调查假设 1]
-  P --> H2[调查假设 2]
-  P -.按现场增加.-> HN[调查假设 N]
-  H1 --> J[证据评审者]
-  H2 --> J
-  HN --> J
-  J -->|证据够了| R[事故指挥报告]
-  J -->|仍有缺口| F[并行创建 0–3 个验证 Agent]
-  F --> R
-```
+![dynamic workflow 动态展开](../assets/dynamic-workflow-flow.svg)
 
 一次运行实际调用的 Agent 数是 `3 + N + M`：三个固定角色是规划者、证据评审者和报告者；`N` 是现场产生的假设数，`M` 是评审后追加的验证数。两个数字都来自前序 Agent 的结构化输出，而不是 YAML 里预留的“专家一号到专家七号”。
 

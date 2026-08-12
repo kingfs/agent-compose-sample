@@ -1,8 +1,8 @@
-# Dynamic Workflow（实验性）
+# Dynamic Workflow
 
 [English](README.en.md)
 
-> 此示例依赖 agent-compose 上游尚未合并的 dynamic workflow PR，作为该 PR 的参考项目发布。稳定版 CLI 即使能通过静态配置校验，也可能因 guest SDK 不含 `workflowFile()` 等 API 而无法运行。
+> dynamic workflow 已合入 agent-compose 新版本。请使用包含 `workflowFile()` runtime SDK 的近期 daemon、CLI 与 guest 镜像版本。
 
 这个示例处理一种部署时无法确定执行图大小的事故调查：规划者根据事故实际涉及的故障域生成 1–4 个假设，运行时为每个假设创建调查 Agent；证据评审者再决定是否动态增加 0–3 个验证 Agent。
 
@@ -35,12 +35,12 @@ dynamic workflow 允许普通 JavaScript 根据运行时数组构造实际执行
 
 - `agent-compose.yml`：scheduler 入口、sticky sandbox 和镜像构建配置。
 - `workflows/incident-investigation.js`：可审阅的动态工作流定义，prompt 默认使用中文。
-- `run-workflow.mjs`：调用实验性 runtime SDK。
+- `run-workflow.mjs`：调用 dynamic workflow runtime SDK。
 - `Dockerfile`：把工作流源文件加入 guest 镜像。
 
 ## 构建与运行
 
-先确保 daemon、CLI、`chaitin/agent-compose-guest:latest` 和 runtime SDK 都来自包含 dynamic workflow PR 的同一版本，并在本目录执行以下命令。`agent-compose.yml` 已声明 Docker 构建上下文、Dockerfile 和镜像标签；`agent-compose up` 会先构建 `agent-compose-sample/dynamic-workflow:latest`，无需手动执行 `docker build`。
+先确保 daemon、CLI、`chaitin/agent-compose-guest:latest` 和 runtime SDK 版本相互兼容，并在本目录执行以下命令。`agent-compose.yml` 已声明 Docker 构建上下文、Dockerfile 和镜像标签；`agent-compose up` 会先构建 `agent-compose-sample/dynamic-workflow:latest`，无需手动执行 `docker build`。
 
 ```bash
 agent-compose config --quiet

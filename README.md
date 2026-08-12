@@ -25,7 +25,7 @@ node scripts/build-pages.mjs --output .pages-src
 | [chat-agent](agents/chat-agent/README.md) | 入门 | 通过 daemon CLI 或 Connect API 启动对话助手 |
 | [scheduled-agent](agents/scheduled-agent/README.md) | 入门 | 同一个 Agent 响应 cron、interval、timeout 和 event |
 | [event-driven-workflow](agents/event-driven-workflow/README.md) | 进阶 | 三个 Agent 通过事件完成分析、实现建议和测试建议 |
-| [dynamic-workflow](agents/dynamic-workflow/README.md) | 实验性 | 根据运行时结果动态展开并行 Agent 执行图 |
+| [dynamic-workflow](agents/dynamic-workflow/README.md) | 进阶 | 根据运行时结果动态展开并行 Agent 执行图 |
 | [agent-creator](agents/agent-creator/README.md) | 进阶 | 根据自然语言需求创建、校验并导入新项目 |
 
 ## 准备 agent-compose
@@ -56,7 +56,7 @@ agent-compose down
 
 每个目录的 README 会说明该示例的触发方式、工作原理、预期效果和清理步骤。
 
-> `dynamic-workflow` 依赖尚未合并的上游 dynamic workflow PR。它作为该设计的参考项目发布，不能保证在稳定版 agent-compose 上运行。
+> `dynamic-workflow` 使用已合入新版本 agent-compose 的 dynamic workflow 能力。请使用与 runtime SDK 兼容的近期 daemon、CLI 和 guest 镜像。
 
 ## 使用仓库 Skill
 

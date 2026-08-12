@@ -8,21 +8,7 @@
 
 ## 事件就是接力棒
 
-```mermaid
-sequenceDiagram
-  participant X as 外部系统 / 手动命令
-  participant A as analyst
-  participant E as 持久化事件
-  participant I as implementer
-  participant T as tester
-  X->>A: sample.code-change.requested
-  A->>A: 分析目标、影响与风险
-  A->>E: sample.code-change.analyzed
-  E->>I: 唤醒实现设计者
-  I->>E: sample.code-change.implementation-designed
-  E->>T: 唤醒测试设计者
-  T-->>X: 分层测试建议
-```
+![事件驱动 workflow 接力](../assets/event-driven-flow.svg)
 
 每个事件都携带原始请求、前序结果和 `correlationId`。因此你可以把同一次请求的阶段串起来观察，也可以只重试失败的阶段。某个团队想替换自己的实现设计 Agent，也只需要守住事件契约，不必拆掉整条流水线。
 

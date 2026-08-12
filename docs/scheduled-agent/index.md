@@ -8,14 +8,7 @@
 
 ## 四个门铃，一位值班员
 
-```mermaid
-flowchart LR
-  C[cron<br/>整点状态检查] --> A[assistant Agent]
-  I[interval<br/>每隔 1 小时心跳] --> A
-  T[timeout<br/>启动 30 秒后提醒] --> A
-  E[event<br/>业务事件到达] --> A
-  A --> O[说明来源、任务与下一步]
-```
+![scheduled-agent 四种触发方式](../assets/scheduled-triggers.svg)
 
 四种 trigger 的差别不在“谁更高级”，而在它们如何回答“为什么现在执行”：
 
@@ -55,15 +48,7 @@ agent-compose scheduler trigger assistant external-event \
 
 四种 trigger 适合“到条件就发这段 prompt”。当需求开始出现条件路由、保存状态、多 Agent 接力、复杂重试或一次触发里多次调用模型时，就应使用 `scheduler.script`。同一个 Agent 上不能同时配置 `scheduler.triggers` 和 `scheduler.script`，选型可以简单记成：
 
-```mermaid
-flowchart TD
-  Q{触发后只需直接调用一次 Agent？}
-  Q -->|是| D[使用声明式 triggers]
-  Q -->|否| S[使用 scheduler.script]
-  S --> R{步骤数量运行前确定吗？}
-  R -->|是| JS[脚本编排或事件链]
-  R -->|否| DW[考虑 dynamic workflow]
-```
+> 选型口诀：触发后只需直接调用一次 Agent，就用声明式 `triggers`；需要条件路由、状态或多步编排，就用 `scheduler.script`；步骤数量还要等运行时才知道，再考虑 dynamic workflow。
 
 所以 scheduled-agent 并不是四个自动化样例塞在一起，而是一张触发方式地图：**处理者可以稳定不变，启动它的理由可以来自时间、生命周期或业务世界。**
 

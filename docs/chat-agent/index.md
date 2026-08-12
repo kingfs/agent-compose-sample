@@ -10,16 +10,7 @@
 
 自动化任务和对话机器人的核心其实相同：提示进入 Agent，模型返回结果。变化的是入口和交互节奏。
 
-```mermaid
-flowchart LR
-  U[用户] -->|终端提问| CLI[agent-compose CLI]
-  U -->|网页 / App| API[Connect HTTP API]
-  CLI --> D[agent-compose daemon]
-  API --> D
-  D --> A[chat Agent]
-  A --> P[模型 Provider]
-  P --> A --> U
-```
+![chat-agent 请求链路](../assets/chat-agent-flow.svg)
 
 这个例子刻意保持“小而诚实”：只有一个 Agent，没有工具、工作区和持久状态。它不会偷偷查系统，也不会假装见过你的业务数据。它最适合先验证三件事：请求能进来、模型能回答、现有服务能通过 API 接入。
 

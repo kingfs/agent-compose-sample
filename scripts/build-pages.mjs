@@ -64,12 +64,6 @@ function parseReadme(markdown, filename) {
   return { title, description, body };
 }
 
-function renderMermaid(markdown) {
-  return markdown.replace(/```mermaid\n([\s\S]*?)```/g, (_match, diagram) =>
-    `<pre class="mermaid">\n${escapeHtml(diagram.trim())}\n</pre>`
-  );
-}
-
 function indexPage(lang, agents) {
   const chinese = lang === "zh-CN";
   const rows = agents.map(({ slug, title, description }) => {
@@ -130,8 +124,9 @@ await Promise.all([
 ]);
 
 const docsRoot = path.join(root, "docs");
+await cp(path.join(docsRoot, "assets"), path.join(output, "stories", "assets"), { recursive: true });
 const storyEntries = (await readdir(docsRoot, { withFileTypes: true }))
-  .filter((entry) => entry.isDirectory())
+  .filter((entry) => entry.isDirectory() && entry.name !== "assets")
   .sort((left, right) => left.name.localeCompare(right.name));
 const stories = [];
 for (const entry of storyEntries) {
@@ -142,7 +137,7 @@ for (const entry of storyEntries) {
   stories.push({ slug: entry.name, eyebrow, ...parsed });
   const target = path.join(output, "stories", entry.name);
   await mkdir(target, { recursive: true });
-  await writeFile(path.join(target, "index.md"), campaignFrontMatter({ title: parsed.title, description: parsed.description }) + renderMermaid(parsed.body) + "\n");
+  await writeFile(path.join(target, "index.md"), campaignFrontMatter({ title: parsed.title, description: parsed.description }) + parsed.body + "\n");
 }
 await mkdir(path.join(output, "stories"), { recursive: true });
 await writeFile(path.join(output, "stories", "index.html"), storiesIndex(stories));
