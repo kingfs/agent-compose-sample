@@ -11,7 +11,7 @@
     <header class="site-header">
       <a class="site-name" href="{{ page.home_url | default: '/' | relative_url }}">{{ site.title }}</a>
       <nav aria-label="Language">
-        <a href="{{ page.alternate_url | relative_url }}" hreflang="{{ page.alternate_lang }}">{{ page.alternate_label }}</a>
+        {% unless page.hide_language_switch %}<a href="{{ page.alternate_url | relative_url }}" hreflang="{{ page.alternate_lang }}">{{ page.alternate_label }}</a>{% endunless %}
         <a href="{{ site.github.repository_url }}">GitHub</a>
       </nav>
     </header>
@@ -20,5 +20,9 @@
       <span>{{ site.github.repository_nwo }}</span>
       <span>{{ site.github.build_revision | slice: 0, 7 }}</span>
     </footer>
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+      mermaid.initialize({ startOnLoad: true, theme: window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "neutral", securityLevel: "strict" });
+    </script>
   </body>
 </html>

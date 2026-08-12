@@ -28,6 +28,20 @@ function frontMatter({ title, lang, alternateUrl, alternateLang, alternateLabel,
   ].join("\n");
 }
 
+function campaignFrontMatter({ title, description, homeUrl = "/stories/" }) {
+  return [
+    "---",
+    "layout: default",
+    `title: ${JSON.stringify(title)}`,
+    `description: ${JSON.stringify(description)}`,
+    "lang: zh-CN",
+    `home_url: ${homeUrl}`,
+    "hide_language_switch: true",
+    "---",
+    "",
+  ].join("\n");
+}
+
 function escapeHtml(value) {
   return value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
 }
@@ -50,6 +64,12 @@ function parseReadme(markdown, filename) {
   return { title, description, body };
 }
 
+function renderMermaid(markdown) {
+  return markdown.replace(/```mermaid\n([\s\S]*?)```/g, (_match, diagram) =>
+    `<pre class="mermaid">\n${escapeHtml(diagram.trim())}\n</pre>`
+  );
+}
+
 function indexPage(lang, agents) {
   const chinese = lang === "zh-CN";
   const rows = agents.map(({ slug, title, description }) => {
@@ -60,10 +80,18 @@ function indexPage(lang, agents) {
   const intro = chinese
     ? "从可运行的小项目学习 agent-compose。每个示例都说明适用场景、工作流程、启动方式与预期结果。"
     : "Learn agent-compose through small, runnable projects. Each sample explains its use case, workflow, commands, and expected result.";
+  const stories = chinese ? '<p class="stories-cta"><a href="{{ \'/stories/\' | relative_url }}">读场景故事：看看 Agent 如何真正上班 →</a></p>' : "";
   return `${frontMatter({
     title: heading, lang, alternateUrl: chinese ? "/en/" : "/", alternateLang: chinese ? "en" : "zh-CN",
     alternateLabel: chinese ? "English" : "中文", homeUrl: chinese ? "/" : "/en/",
-  })}<h1>${heading}</h1>\n<p class="intro">${intro}</p>\n<section class="agent-list">${rows}</section>\n`;
+  })}<h1>${heading}</h1>\n<p class="intro">${intro}</p>\n${stories}\n<section class="agent-list">${rows}</section>\n`;
+}
+
+function storiesIndex(stories) {
+  const cards = stories.map(({ slug, title, description, eyebrow }) =>
+    `<article class="story-card"><span>${escapeHtml(eyebrow)}</span><h2><a href="{{ '/stories/${slug}/' | relative_url }}">${escapeHtml(title)}</a></h2><p>${escapeHtml(description)}</p><a class="story-link" href="{{ '/stories/${slug}/' | relative_url }}">开始阅读 →</a></article>`
+  ).join("\n");
+  return `${campaignFrontMatter({ title: "Agent 上班实录", description: "四个真实场景，读懂如何用 agent-compose 创建对话、动态工作流、事件驱动与多触发 Agent。", homeUrl: "/" })}<div class="story-hero"><p class="eyebrow">AGENT-COMPOSE · 场景故事</p><h1>别只让 Agent 跑脚本，<br>也让它接电话、组队和听铃上班</h1><p class="intro">四篇不太像说明书的技术故事：从一个具体麻烦出发，拆开配置，看请求如何抵达 Agent，再亲手跑一次。</p></div>\n<section class="story-grid">${cards}</section>\n`;
 }
 
 await rm(output, { recursive: true, force: true });
@@ -100,4 +128,22 @@ await Promise.all([
   writeFile(path.join(output, "index.html"), indexPage("zh-CN", indexes.zh)),
   writeFile(path.join(output, "en", "index.html"), indexPage("en", indexes.en)),
 ]);
-console.log(`Generated ${entries.length * 2 + 2} pages from ${entries.length} agents in ${path.relative(root, output)}`);
+
+const docsRoot = path.join(root, "docs");
+const storyEntries = (await readdir(docsRoot, { withFileTypes: true }))
+  .filter((entry) => entry.isDirectory())
+  .sort((left, right) => left.name.localeCompare(right.name));
+const stories = [];
+for (const entry of storyEntries) {
+  const filename = `docs/${entry.name}/index.md`;
+  const markdown = await readFile(path.join(root, filename), "utf8");
+  const parsed = parseReadme(markdown, filename);
+  const eyebrow = markdown.match(/^>\s*栏目：(.+)$/m)?.[1]?.trim() || "场景故事";
+  stories.push({ slug: entry.name, eyebrow, ...parsed });
+  const target = path.join(output, "stories", entry.name);
+  await mkdir(target, { recursive: true });
+  await writeFile(path.join(target, "index.md"), campaignFrontMatter({ title: parsed.title, description: parsed.description }) + renderMermaid(parsed.body) + "\n");
+}
+await mkdir(path.join(output, "stories"), { recursive: true });
+await writeFile(path.join(output, "stories", "index.html"), storiesIndex(stories));
+console.log(`Generated ${entries.length * 2 + stories.length + 3} pages from ${entries.length} agents and ${stories.length} stories in ${path.relative(root, output)}`);

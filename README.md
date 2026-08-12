@@ -10,6 +10,8 @@
 
 首次使用前，请在仓库 **Settings → Pages → Build and deployment** 中将 Source 设为 **GitHub Actions**。之后发布任意 tag 即会自动更新站点。
 
+除偏上手和查阅的 README 外，站点还会发布 [`docs/`](docs/) 下的“Agent 上班实录”场景软文。四篇文章用故事、图解和可复制命令介绍对话、动态工作流、事件驱动与多种调度入口。
+
 本地检查生成结果：
 
 ```bash
