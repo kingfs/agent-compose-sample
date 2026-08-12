@@ -96,12 +96,12 @@ function storiesIndex(stories) {
   const cards = stories.map(({ slug, title, description, eyebrow }) =>
     `<article class="story-card"><span>${escapeHtml(eyebrow)}</span><h2><a href="{{ '/stories/${slug}/' | relative_url }}">${escapeHtml(title)}</a></h2><p>${escapeHtml(description)}</p><a class="story-link" href="{{ '/stories/${slug}/' | relative_url }}">开始阅读 →</a></article>`
   ).join("\n");
-  return `${campaignFrontMatter({ title: "Agent 上班实录", description: "四个真实场景，读懂如何用 agent-compose 创建对话、动态工作流、事件驱动与多触发 Agent。", homeUrl: "/" })}<div class="story-hero"><p class="eyebrow">AGENT-COMPOSE · 场景故事</p><h1>别只让 Agent 跑脚本，<br>也让它接电话、组队和听铃上班</h1><p class="intro">四篇不太像说明书的技术故事：从一个具体麻烦出发，拆开配置，看请求如何抵达 Agent，再亲手跑一次。</p></div>\n<section class="story-grid">${cards}</section>\n`;
+  return `${campaignFrontMatter({ title: "Agent 上班实录", description: "四个真实场景，读懂如何用 agent-compose 创建对话、动态工作流、事件驱动与多触发 Agent。", homeUrl: "/" })}<p class="intro">四篇不太像说明书的技术故事：从一个具体麻烦出发，拆开配置，看请求如何抵达 Agent，再亲手跑一次。</p>\n<section class="story-grid">${cards}</section>\n`;
 }
 
 function englishStoriesIndex(stories) {
   const cards = stories.map(({ slug, title, description }) => `<article class="story-card"><span>AGENT AT WORK</span><h2><a href="{{ '/en/stories/${slug}/' | relative_url }}">${escapeHtml(title)}</a></h2><p>${escapeHtml(description)}</p><a class="story-link" href="{{ '/en/stories/${slug}/' | relative_url }}">Read the story →</a></article>`).join("\n");
-  return `${englishCampaignFrontMatter({ title: "Agent at Work", description: "Four approachable stories about building chat, dynamic, event-driven, and scheduled agents with agent-compose." })}<div class="story-hero"><p class="eyebrow">AGENT-COMPOSE · STORIES</p><h1>Let your Agent answer the phone,<br>form a team, and hear the alarm</h1><p class="intro">Four technical stories that start with an everyday mess and quietly reveal the architecture underneath.</p></div>\n<section class="story-grid">${cards}</section>\n`;
+  return `${englishCampaignFrontMatter({ title: "Agent at Work", description: "Four approachable stories about building chat, dynamic, event-driven, and scheduled agents with agent-compose." })}<p class="intro">Four technical stories that start with an everyday mess, unpack the configuration, trace how a request reaches an Agent, and end with something you can run yourself.</p>\n<section class="story-grid">${cards}</section>\n`;
 }
 
 await rm(output, { recursive: true, force: true });
