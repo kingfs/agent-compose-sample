@@ -24,7 +24,7 @@
 
 他们当时都没想到，这位尚未取名的机器人，后来会变成公司第一位 AI 员工；更没想到一年以后，公司要同时管理三百多位这样的同事。
 
-![阿布与数字前台](../assets/agent-compose-journey/front-desk.svg)
+![阿布与数字前台](../assets/agent-compose-journey/generated/front-desk.png)
 
 ## 第一位 AI 同事，没有想象中那么神通广大
 
@@ -66,7 +66,7 @@
 
 阿布把这件事比作公司门口的同一个保安：早上按表巡楼，隔一段时间看监控，消防演习前专门检查一次，警报响了立刻出发。不能因为闹钟有四种，就招聘四个长得一模一样的人。
 
-![一个 Agent 响应不同工作节奏](../assets/agent-compose-journey/triggers.svg)
+![一个 Agent 响应不同工作节奏](../assets/agent-compose-journey/generated/triggers.png)
 
 ## 真正的考验，在发布会开始后第十七分钟到来
 
@@ -92,7 +92,7 @@
 
 老周看完说：“很好，这次事故群里终于不是嗓门最大的人赢。”
 
-![事故现场动态组成调查小队](../assets/agent-compose-journey/incident-team.svg)
+![事故现场动态组成调查小队](../assets/agent-compose-journey/generated/incident-team.png)
 
 ## 事情处理完了，交接却差点又回到群聊里
 
@@ -108,7 +108,7 @@
 
 老周仍然坚持一个原则：没有代码仓库权限的 Agent，只能提出修改建议；没有测试环境的 Agent，只能给出测试计划。交接机制可以把话送到，但不会凭空变出钥匙。
 
-![Agent 通过交接单协作](../assets/agent-compose-journey/handoff.svg)
+![Agent 通过交接单协作](../assets/agent-compose-journey/generated/handoff.png)
 
 ## 活动结束后，公司决定“再来两百个”
 
@@ -136,7 +136,7 @@ Agent Compose 的价值在这时完整显现出来。
 
 至于真的要不要同时启动三百个运行实例，要由机器容量、模型额度和业务流量决定。一个严谨的系统不会因为宣传海报写得很大，就假装服务器也跟着变大。
 
-![统一管理三百位 AI 同事](../assets/agent-compose-journey/fleet.svg)
+![统一管理三百位 AI 同事](../assets/agent-compose-journey/generated/fleet.png)
 
 ## 凌晨三点，七位同事没有回消息
 
@@ -160,7 +160,7 @@ Agent Compose 提供统一状态、日志和生命周期管理，让这条链有
 
 这句话不如“AI 全自动自愈”听起来刺激，但它有对象、有过程、有结果，也经得起追问。
 
-![局部故障与有边界的恢复](../assets/agent-compose-journey/recovery.svg)
+![局部故障与有边界的恢复](../assets/agent-compose-journey/generated/recovery.png)
 
 ## 阿布后来去了哪里？
 

@@ -8,7 +8,7 @@ Product manager Lin suggested a chatbot. Operator Zhou asked three less romantic
 
 They did not yet know that this unnamed bot would become the company's first AI employee—or that a year later they would operate more than three hundred.
 
-![Abu and the digital front desk](../assets/agent-compose-journey/front-desk.svg)
+![Abu and the digital front desk](../assets/agent-compose-journey/generated/front-desk.png)
 
 ## The first coworker was deliberately unremarkable
 
@@ -28,7 +28,7 @@ The team gave these coworkers a rhythm. One prepared a morning summary, another 
 
 To the business, these were daily reports, recurring checks, a launch reminder, and “call me when something happens.” Agent Compose managed them through one scheduling system. Different wake-up methods did not require duplicated coworkers with duplicated roles.
 
-![One Agent responding to different work rhythms](../assets/agent-compose-journey/triggers.svg)
+![One Agent responding to different work rhythms](../assets/agent-compose-journey/generated/triggers.png)
 
 ## The real test arrived seventeen minutes into the launch
 
@@ -42,7 +42,7 @@ Models interpreted the messy scene. Deterministic rules bounded investigation ro
 
 The final report separated fact from hypothesis: database pressure was real, but it began with request accumulation after a downstream timeout. The service could be stabilized immediately while release changes were investigated afterward.
 
-![A dynamically formed incident investigation team](../assets/agent-compose-journey/incident-team.svg)
+![A dynamically formed incident investigation team](../assets/agent-compose-journey/generated/incident-team.png)
 
 ## Recovery finished; the handoff nearly fell back into chat
 
@@ -54,7 +54,7 @@ Each handoff retained its source, content, time, and outcome. A failed stage cou
 
 Permissions still mattered. An Agent without repository access could suggest a change, not claim to have made it. A handoff can deliver a message; it cannot invent a key.
 
-![Agents collaborating through handoffs](../assets/agent-compose-journey/handoff.svg)
+![Agents collaborating through handoffs](../assets/agent-compose-journey/generated/handoff.png)
 
 ## Then the company requested two hundred more
 
@@ -70,7 +70,7 @@ The real value of “launch three hundred AI coworkers with one action” was no
 
 Whether three hundred runtimes should start simultaneously remained a capacity, model-quota, and traffic decision. A responsible system does not make servers larger because a headline is large.
 
-![One control plane managing an Agent fleet](../assets/agent-compose-journey/fleet.svg)
+![One control plane managing an Agent fleet](../assets/agent-compose-journey/generated/fleet.png)
 
 ## At 3 a.m., seven coworkers stopped answering
 
@@ -84,7 +84,7 @@ That is the less glamorous meaning of self-healing: detect, collect evidence, ac
 
 The next morning, Zhou reported: seven anomalies, five recovered, two escalated, everyone else unaffected. It was less exciting than “fully autonomous healing,” but it had objects, evidence, and an outcome.
 
-![Local failure and bounded recovery](../assets/agent-compose-journey/recovery.svg)
+![Local failure and bounded recovery](../assets/agent-compose-journey/generated/recovery.png)
 
 ## Where did Abu go?
 
