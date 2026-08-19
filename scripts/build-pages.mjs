@@ -88,7 +88,7 @@ function indexPage(lang, agents) {
     : "Learn agent-compose through small, runnable projects. Each sample explains its use case, workflow, commands, and expected result.";
   const stories = chinese
     ? '<p class="stories-cta"><a href="{{ \'/stories/\' | relative_url }}">读场景故事：看看 Agent 如何真正上班 →</a></p>'
-    : '<p class="stories-cta"><a href="{{ \'/en/stories/\' | relative_url }}">Read Agent at Work: four stories behind the architecture →</a></p>';
+    : '<p class="stories-cta"><a href="{{ \'/en/stories/\' | relative_url }}">Read Agent at Work: six stories behind the architecture →</a></p>';
   return `${frontMatter({
     title: heading, lang, alternateUrl: chinese ? "/en/" : "/", alternateLang: chinese ? "en" : "zh-CN",
     alternateLabel: chinese ? "English" : "中文", homeUrl: chinese ? "/" : "/en/",
@@ -99,12 +99,12 @@ function storiesIndex(stories) {
   const cards = stories.map(({ slug, title, description, eyebrow }) =>
     `<article class="story-card"><span>${escapeHtml(eyebrow)}</span><h2><a href="{{ '/stories/${slug}/' | relative_url }}">${escapeHtml(title)}</a></h2><p>${escapeHtml(description)}</p><a class="story-link" href="{{ '/stories/${slug}/' | relative_url }}">开始阅读 →</a></article>`
   ).join("\n");
-  return `${campaignFrontMatter({ title: "Agent 上班实录", description: "四个真实场景，读懂如何用 agent-compose 创建对话、动态工作流、事件驱动与多触发 Agent。", homeUrl: "/" })}<p class="intro">四篇不太像说明书的技术故事：从一个具体麻烦出发，拆开配置，看请求如何抵达 Agent，再亲手跑一次。</p>\n<section class="story-grid">${cards}</section>\n`;
+  return `${campaignFrontMatter({ title: "Agent 上班实录", description: "六个真实场景，读懂如何用 agent-compose 创建、编排并运营 Agent。", homeUrl: "/" })}<p class="intro">六篇不太像说明书的技术故事：从一个具体麻烦出发，拆开机制，看 Agent 如何从一次演示走向可运营的工程系统。</p>\n<section class="story-grid">${cards}</section>\n`;
 }
 
 function englishStoriesIndex(stories) {
   const cards = stories.map(({ slug, title, description }) => `<article class="story-card"><span>AGENT AT WORK</span><h2><a href="{{ '/en/stories/${slug}/' | relative_url }}">${escapeHtml(title)}</a></h2><p>${escapeHtml(description)}</p><a class="story-link" href="{{ '/en/stories/${slug}/' | relative_url }}">Read the story →</a></article>`).join("\n");
-  return `${englishCampaignFrontMatter({ title: "Agent at Work", description: "Four approachable stories about building chat, dynamic, event-driven, and scheduled agents with agent-compose." })}<p class="intro">Four technical stories that start with an everyday mess, unpack the configuration, trace how a request reaches an Agent, and end with something you can run yourself.</p>\n<section class="story-grid">${cards}</section>\n`;
+  return `${englishCampaignFrontMatter({ title: "Agent at Work", description: "Six approachable stories about building, orchestrating, and operating agents with agent-compose." })}<p class="intro">Six technical stories that begin with an everyday mess and follow Agents from a small runnable example to an operable production system.</p>\n<section class="story-grid">${cards}</section>\n`;
 }
 
 await rm(output, { recursive: true, force: true });
