@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["summary", "findings"],
+  "properties": {
+    "summary": {
+      "type": "string",
+      "description": "Concise answer to the research question."
+    },
+    "findings": {
+      "type": "array",
+      "description": "Evidence-backed findings returned by the agent.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["claim", "source"],
+        "properties": {
+          "claim": {
+            "type": "string",
+            "description": "A supported factual finding."
+          },
+          "source": {
+            "type": "string",
+            "description": "Source URL or reference supporting the claim."
+          }
+        }
+      }
+    }
+  }
+}
+
