@@ -1,42 +1,56 @@
 #!/usr/bin/env python3
-"""Download one remote object for the file-download-qa example."""
-import argparse, os, pathlib, sys, urllib.parse, urllib.request
-
+import argparse, os, pathlib, tempfile, urllib.parse, urllib.request
 MAX_BYTES = 25 * 1024 * 1024
-ALLOWED = {".pdf", ".doc", ".docx", ".txt", ".md", ".csv", ".json"}
-
-def main():
-    p = argparse.ArgumentParser(); p.add_argument("url"); p.add_argument("--output-dir", default="/workspace/downloads")
-    a = p.parse_args(); u = urllib.parse.urlparse(a.url)
-    if u.scheme not in ("http", "https", "s3") or not u.netloc:
-        raise SystemExit("仅支持 http(s)://host/path 或 s3://bucket/key")
-    name = pathlib.PurePosixPath(urllib.parse.unquote(u.path)).name or "downloaded-file"
-    suffix = pathlib.PurePath(name).suffix.lower()
-    if suffix and suffix not in ALLOWED: raise SystemExit(f"不支持的文件类型: {suffix}")
-    outdir = pathlib.Path(a.output_dir).resolve(); outdir.mkdir(parents=True, exist_ok=True)
-    target = (outdir / name).resolve()
-    if outdir not in target.parents: raise SystemExit("非法文件名")
-    if u.scheme == "s3":
-        try:
-            import boto3
-            client = boto3.client("s3", region_name=os.getenv("AWS_REGION"))
-            obj = client.get_object(Bucket=u.netloc, Key=u.path.lstrip("/")); body = obj["Body"]
-            length = obj.get("ContentLength", 0)
-            if length > MAX_BYTES: raise SystemExit("文件超过 25 MiB 限制")
-            stream = body
-        except ImportError: raise SystemExit("S3 下载需要镜像预装 boto3")
-    else:
-        req = urllib.request.Request(a.url, headers={"User-Agent": "agent-compose-file-download-qa/1.0"})
-        stream = urllib.request.urlopen(req, timeout=30)
-        length = int(stream.headers.get("Content-Length") or 0)
-        if length > MAX_BYTES: raise SystemExit("文件超过 25 MiB 限制")
+ALLOWED = {'.pdf','.doc','.docx','.txt','.md','.csv','.json'}
+class SafeRedirect(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        old, new = urllib.parse.urlparse(req.full_url), urllib.parse.urlparse(newurl)
+        if new.scheme not in ('http','https') or new.netloc != old.netloc:
+            raise OSError('redirect must stay on the same HTTP(S) host')
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
+def _copy(stream, target):
     total = 0
-    with target.open("wb") as f:
+    with open(target, 'wb') as output:
         while True:
             chunk = stream.read(1024 * 1024)
             if not chunk: break
             total += len(chunk)
-            if total > MAX_BYTES: target.unlink(missing_ok=True); raise SystemExit("文件超过 25 MiB 限制")
-            f.write(chunk)
-    print(target)
-if __name__ == "__main__": main()
+            if total > MAX_BYTES: raise ValueError('file exceeds 25 MiB limit')
+            output.write(chunk)
+def download(url, output_dir='/workspace/downloads'):
+    parsed = urllib.parse.urlparse(url)
+    if parsed.scheme not in ('http','https','s3') or not parsed.netloc: raise ValueError('only http(s)://host/path or s3://bucket/key is supported')
+    name = pathlib.PurePosixPath(urllib.parse.unquote(parsed.path)).name or 'downloaded-file'
+    suffix = pathlib.PurePath(name).suffix.lower()
+    if suffix and suffix not in ALLOWED: raise ValueError(f'unsupported file type: {suffix}')
+    outdir = pathlib.Path(output_dir).resolve(); outdir.mkdir(parents=True, exist_ok=True)
+    target = (outdir / name).resolve()
+    if outdir not in target.parents: raise ValueError('invalid filename')
+    fd, temp_name = tempfile.mkstemp(dir=outdir, prefix='.download-'); os.close(fd)
+    try:
+        if parsed.scheme == 's3':
+            import boto3
+            response = boto3.client('s3', region_name=os.getenv('AWS_REGION')).get_object(Bucket=parsed.netloc, Key=parsed.path.lstrip('/'))
+            stream = response['Body']
+            try:
+                if response.get('ContentLength', 0) > MAX_BYTES: raise ValueError('file exceeds 25 MiB limit')
+                _copy(stream, temp_name)
+            finally: stream.close()
+        else:
+            response = urllib.request.build_opener(SafeRedirect()).open(urllib.request.Request(url), timeout=30)
+            try:
+                if response.status < 200 or response.status >= 300: raise OSError(f'HTTP status {response.status}')
+                length = response.headers.get('Content-Length')
+                if length and int(length) > MAX_BYTES: raise ValueError('file exceeds 25 MiB limit')
+                _copy(response, temp_name)
+            finally: response.close()
+        os.replace(temp_name, target)
+    except Exception:
+        pathlib.Path(temp_name).unlink(missing_ok=True); raise
+    return target
+def main():
+    parser = argparse.ArgumentParser(); parser.add_argument('url'); parser.add_argument('--output-dir', default='/workspace/downloads')
+    args = parser.parse_args()
+    try: print(download(args.url, args.output_dir))
+    except Exception as exc: raise SystemExit(str(exc))
+if __name__ == '__main__': main()
